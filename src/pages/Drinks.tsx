@@ -4,10 +4,19 @@ import { IAddonType } from "../interfaces/AddonInterface";
 import MenuLateralBar from "../components/MenuLateralBar";
 import DrinksTopBar from "../components/DrinksTopBar";
 import DrinkOptions from "../components/DrinkOptions";
+import {
+  Page,
+  LeftBar,
+  TopBar,
+  Options,
+  RightBar,
+} from "../components/StyledComponents";
 
 const Drinks = () => {
   const [drinks, setDrinks] = useState<IDrink[]>([]);
   const [addons, setAddons] = useState<IAddonType[]>([]);
+
+  console.log(drinks, addons);
 
   useEffect(() => {
     fetch("/drinksMock.json")
@@ -28,22 +37,20 @@ const Drinks = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        width: "100%",
-        height: "80%",
-      }}
-    >
-      <div style={{ flexBasis: "20%", flexShrink: 0 }}>
+    <Page>
+      <LeftBar>
         <MenuLateralBar />
-      </div>
-      <div style={{ flexGrow: 1, border: "2px solid black" }}>
+      </LeftBar>
+      <TopBar>
         <DrinksTopBar />
+      </TopBar>
+      <Options>
         <DrinkOptions />
-      </div>
-    </div>
+      </Options>
+      <RightBar>
+        <p>test</p>
+      </RightBar>
+    </Page>
   );
 };
 
