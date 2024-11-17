@@ -1,0 +1,213 @@
+{
+  "addons": [
+    {
+      "name": "Extra toppings",
+      "limit": 2,
+      "sortOrder": 1,
+      "refProductIds": ["a_very_unique_milkshake_id"],
+      "addons": [
+        {
+          "addon": {
+            "name": "Whipped cream",
+            "price": "15"
+          },
+          "limit": 1,
+          "sortOrder": 1
+        },
+        {
+          "addon": {
+            "name": "Marshmallow",
+            "price": "10"
+          },
+          "limit": 1,
+          "sortOrder": 2
+        },
+        {
+          "addon": {
+            "name": "Oreo crumbles",
+            "price": "10"
+          },
+          "limit": 1,
+          "sortOrder": 3
+        },
+        {
+          "addon": {
+            "name": "Caramel drizzle",
+            "price": "10"
+          },
+          "limit": 1,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "name": "To remove",
+      "limit": 1,
+      "sortOrder": 0,
+      "refProductIds": [
+        "a_very_unique_smoothie_id",
+        "a_very_unique_juice_id"
+      ],
+      "addons": [
+        {
+          "addon": {
+            "name": "Sugar",
+            "price": "0"
+          },
+          "limit": 1,
+          "sortOrder": 1
+        }
+      ]
+    },
+    {
+      "name": "Sugar level",
+      "limit": 1,
+      "sortOrder": 0,
+      "refProductIds": [
+        "a_very_unique_smoothie_id",
+        "a_very_unique_juice_id"
+      ],
+      "addons": [
+        {
+          "addon": {
+            "name": "Regular",
+            "price": "0"
+          },
+          "limit": 1,
+          "sortOrder": 1
+        },
+        {
+          "addon": {
+            "name": "Extra sweet",
+            "price": "0"
+          },
+          "limit": 1,
+          "sortOrder": 2
+        },
+        {
+          "addon": {
+            "name": "Sweetener",
+            "price": "5"
+          },
+          "limit": 1,
+          "sortOrder": 3
+        }
+      ]
+    },
+    {
+      "name": "Milk options",
+      "limit": 1,
+      "sortOrder": 2,
+      "refProductIds": ["a_very_unique_milkshake_id"],
+      "addons": [
+        {
+          "addon": {
+            "name": "Whole milk",
+            "price": "0"
+          },
+          "limit": 1,
+          "sortOrder": 1
+        },
+        {
+          "addon": {
+            "name": "Soy milk",
+            "price": "10"
+          },
+          "limit": 1,
+          "sortOrder": 2
+        },
+        {
+          "addon": {
+            "name": "Oat milk",
+            "price": "15"
+          },
+          "limit": 1,
+          "sortOrder": 3
+        },
+        {
+          "addon": {
+            "name": "Almond milk",
+            "price": "15"
+          },
+          "limit": 1,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "name": "Ice Preferences",
+      "limit": 1,
+      "sortOrder": 2,
+      "refProductIds": [
+        "a_very_unique_soda_id",
+        "a_very_unique_smoothie_id",
+        "a_very_unique_juice_id"
+      ],
+      "addons": [
+        {
+          "addon": {
+            "name": "No ice",
+            "price": "0"
+          },
+          "limit": 1,
+          "sortOrder": 1
+        },
+        {
+          "addon": {
+            "name": "Regular ice",
+            "price": "0"
+          },
+          "limit": 1,
+          "sortOrder": 2
+        }, {
+          "addon": {
+            "name": "Extra ice",
+            "price": "0"
+          },
+          "limit": 1,
+          "sortOrder": 3
+        },
+        {
+          "addon": {
+            "name": "Crushed ice",
+            "price": "0"
+          },
+          "limit": 1,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "name": "Toppings",
+      "limit": 3,
+      "sortOrder": 4,
+      "refProductIds": ["a_very_unique_smoothie_id"],
+      "addons": [
+        {
+          "addon": {
+            "name": "Granola",
+            "price": "10"
+          },
+          "limit": 1,
+          "sortOrder": 1
+        },
+        {
+          "addon": {
+            "name": "Frozen Berries",
+            "price": "10"
+          },
+          "limit": 1,
+          "sortOrder": 2
+        },
+        {
+          "addon": {
+            "name": "Chia seeds",
+            "price": "10"
+          },
+          "limit": 1,
+          "sortOrder": 3
+        }
+      ]
+    }
+  ]
+}
