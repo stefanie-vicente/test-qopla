@@ -4,7 +4,27 @@ const Options = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  gap: 0px;
+  background: #5cb8e4;
+  height: 100%;
+  align-items: center;
+  justify-items: center;
+`;
+
+const Item = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #1d84b5;
+  width: 80%;
+  height: 80%;
+
+  &:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
 `;
 
 const DrinkOptions = () => {
@@ -31,13 +51,9 @@ const DrinkOptions = () => {
   return (
     <Options>
       {cellsToRender.map((option: string, index: number) => (
-        <div
-          style={{ border: "2px solid black", padding: "10px" }}
-          key={index}
-          onClick={() => handleClick(option)}
-        >
-          <p style={{ fontSize: 20 }}>{option}</p>
-        </div>
+        <Item key={index} onClick={() => handleClick(option)}>
+          {option}
+        </Item>
       ))}
     </Options>
   );
