@@ -1,10 +1,10 @@
 import styled from "styled-components";
+import { useStore } from "../StoreContext";
 
 const Options = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  background: #5cb8e4;
   height: 100%;
   align-items: center;
   justify-items: center;
@@ -17,7 +17,7 @@ const Item = styled.div`
   text-align: center;
   font-weight: bold;
   cursor: pointer;
-  background-color: #1d84b5;
+  background-color: #76abae;
   width: 80%;
   height: 80%;
 
@@ -27,32 +27,26 @@ const Item = styled.div`
   }
 `;
 
-const DrinkOptions = () => {
-  const drinkFlavours: string[] = [
-    "Coca",
-    "Sprite",
-    "Fanta",
-    "Coca Zero",
-    "Sprite Zero",
-    "Fanta Zero",
-  ];
+const DrinkOptions = (props: { type: string }) => {
+  const { drinksFlavours } = useStore();
+
+  const filteredDrink = drinksFlavours.filter(
+    (item: { flavours: any; drink: string }) => item.drink === props.type
+  );
+
+  const drinkFlavours = filteredDrink.length
+    ? filteredDrink.at(-1)?.flavours
+    : [];
 
   const handleClick = (item: any) => {
     console.log(`You clicked on ${item}`);
   };
 
-  const totalCells = 16;
-
-  const cellsToRender = [
-    ...drinkFlavours,
-    ...Array(totalCells - drinkFlavours.length).fill(null),
-  ];
-
   return (
     <Options>
-      {cellsToRender.map((option: string, index: number) => (
-        <Item key={index} onClick={() => handleClick(option)}>
-          {option}
+      {drinkFlavours.map((option: any) => (
+        <Item key={option?.name} onClick={() => handleClick(option?.name)}>
+          {option?.name}
         </Item>
       ))}
     </Options>

@@ -1,10 +1,10 @@
 import styled from "styled-components";
+import { useStore } from "../StoreContext";
 
 const Drinks = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(1, 1fr);
-  background: #fc8744;
   height: 100%;
   align-items: center;
   justify-items: center;
@@ -17,7 +17,7 @@ const DrinkItem = styled.div`
   text-align: center;
   font-weight: bold;
   cursor: pointer;
-  background-color: #f75c03;
+  background-color: #76abae;
   width: 80%;
   height: 80%;
 
@@ -28,7 +28,7 @@ const DrinkItem = styled.div`
 `;
 
 const DrinksTopBar = () => {
-  const drinkTypes: string[] = ["Juice", "Soda", "Smoothie", "Milkshake"];
+  const { drinksTypes } = useStore();
 
   const handleClick = (item: any) => {
     console.log(`You clicked on ${item}`);
@@ -36,7 +36,7 @@ const DrinksTopBar = () => {
 
   return (
     <Drinks>
-      {drinkTypes.map((option: string) => (
+      {drinksTypes.map((option: string) => (
         <DrinkItem key={option} onClick={() => handleClick(option)}>
           {option}
         </DrinkItem>
