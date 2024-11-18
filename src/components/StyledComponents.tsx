@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Page = styled.div`
   display: grid;
-  grid-template-columns: 1fr 2.5fr 2.5fr 2.5fr 2.5fr 3.5fr;
+  grid-template-columns: 1.5fr 2.3fr 2.3fr 2.3fr 2.3fr 3.8fr;
   grid-template-rows: repeat(5, 1fr);
   gap: 0px;
   height: 90vh;
