@@ -11,6 +11,7 @@ import {
   Options,
   RightBar,
 } from "../components/StyledComponents";
+import CartLateralBar from "../components/CartLateralBar";
 
 const Drinks = () => {
   const [drinks, setDrinks] = useState<IDrink[]>([]);
@@ -48,7 +49,7 @@ const Drinks = () => {
         <DrinkOptions />
       </Options>
       <RightBar>
-        <p>test</p>
+        <CartLateralBar />
       </RightBar>
     </Page>
   );
