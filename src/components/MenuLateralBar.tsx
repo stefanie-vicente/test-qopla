@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 const Sidebar = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  border: 1px solid black;
-  border-radius: 8px;
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-columns: repeat(1, 1fr);
+  background: #ebce56;
   height: 100%;
-  background-color: #ebce56;
+  align-items: center;
+  justify-items: center;
 `;
 
 const MenuItem = styled.div`
@@ -17,13 +17,12 @@ const MenuItem = styled.div`
   font-weight: bold;
   text-align: center;
   background: #e6c229;
-  padding: 30px;
   cursor: pointer;
-  border: 1px;
-  border-radius: 8px;
+  width: 80%;
+  height: 80%;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     opacity: 0.9;
   }
 `;
