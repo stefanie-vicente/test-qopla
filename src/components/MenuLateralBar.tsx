@@ -1,3 +1,33 @@
+import styled from "styled-components";
+
+const Sidebar = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: 1px solid black;
+  border-radius: 8px;
+  height: 100%;
+  background-color: #ebce56;
+`;
+
+const MenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+  background: #e6c229;
+  padding: 30px;
+  cursor: pointer;
+  border: 1px;
+  border-radius: 8px;
+
+  &:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+`;
+
 const MenuLateralBar = () => {
   const menuOptions: string[] = [
     "Meals",
@@ -7,27 +37,18 @@ const MenuLateralBar = () => {
     "Sauces",
   ];
 
-  const handleClick = (item: any) => {
+  const handleClick = (item: string) => {
     console.log(`You clicked on ${item}`);
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <Sidebar>
       {menuOptions.map((option: string) => (
-        <div
-          style={{ border: "2px solid black", padding: "10px" }}
-          key={option}
-          onClick={() => handleClick(option)}
-        >
-          <p style={{ fontSize: 20 }}>{option}</p>
-        </div>
+        <MenuItem key={option} onClick={() => handleClick(option)}>
+          {option}
+        </MenuItem>
       ))}
-    </div>
+    </Sidebar>
   );
 };
 
