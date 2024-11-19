@@ -28,9 +28,10 @@ const DrinkItem = styled.div`
 `;
 
 const DrinksTopBar = () => {
-  const { drinksTypes } = useStore();
+  const { drinksTypes, changeDrinkType } = useStore();
 
-  const handleClick = (item: any) => {
+  const handleClick = (item: string) => {
+    changeDrinkType(item);
     console.log(`You clicked on ${item}`);
   };
 

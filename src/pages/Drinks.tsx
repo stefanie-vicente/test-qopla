@@ -20,7 +20,7 @@ const Drinks = () => {
         <DrinksTopBar />
       </TopBar>
       <Options>
-        <DrinkOptions type="Soda" />
+        <DrinkOptions />
       </Options>
       <RightBar>
         <CartLateralBar />

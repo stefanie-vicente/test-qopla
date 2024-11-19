@@ -32,9 +32,12 @@ interface StoreContextType {
   drinksTypes: string[];
   drinksFlavours: any;
   drinksOptions: Drink[];
+  selectedDrinkType: string;
+  setSelectedDrinkType: any;
   cart: CartItem[];
   addToCart: (product: any) => void;
   removeFromCart: (productId: any) => void;
+  changeDrinkType: (type: string) => void;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -42,6 +45,7 @@ const StoreContext = createContext<StoreContextType | undefined>(undefined);
 export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const [selectedDrinkType, setSelectedDrinkType] = useState<string>("Soda");
   const [drinksTypes, setDrinksTypes] = useState<string[]>([]);
   const [drinksOptions, setDrinksOptions] = useState<Drink[]>([]);
   const [drinksFlavours, setDrinksFlavours] = useState<string[]>([]);
@@ -66,22 +70,6 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
         setDrinksFlavours(flavours);
       } catch (error) {
         console.error("Error fetching drinks:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("/addonsMock.json");
-
-        const { addons } = await response.json();
-
-        // console.log(addons);
-      } catch (error) {
-        console.error("Error fetching addons:", error);
       }
     };
 
@@ -116,6 +104,8 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     );
   };
 
+  const changeDrinkType = (type: string) => setSelectedDrinkType(type);
+
   return (
     <StoreContext.Provider
       value={{
@@ -123,6 +113,9 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
         drinksFlavours,
         drinksOptions,
         cart,
+        selectedDrinkType,
+        setSelectedDrinkType,
+        changeDrinkType,
         addToCart,
         removeFromCart,
       }}

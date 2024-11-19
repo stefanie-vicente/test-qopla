@@ -27,25 +27,21 @@ const Item = styled.div`
   }
 `;
 
-const DrinkOptions = (props: { type: string }) => {
-  const { drinksFlavours } = useStore();
+const DrinkOptions = () => {
+  const { drinksFlavours, selectedDrinkType } = useStore();
 
   const filteredDrink = drinksFlavours.filter(
-    (item: { flavours: any; drink: string }) => item.drink === props.type
+    (item: { flavours: any; drink: string }) => item.drink === selectedDrinkType
   );
 
   const drinkFlavours = filteredDrink.length
     ? filteredDrink.at(-1)?.flavours
     : [];
 
-  const handleClick = (item: any) => {
-    console.log(`You clicked on ${item}`);
-  };
-
   return (
     <Options>
       {drinkFlavours.map((option: any) => (
-        <Item key={option?.name} onClick={() => handleClick(option?.name)}>
+        <Item key={option?.name} onClick={() => console.log(option)}>
           {option?.name}
         </Item>
       ))}
