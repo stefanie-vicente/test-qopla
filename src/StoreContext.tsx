@@ -7,7 +7,7 @@ import React, {
 } from "react";
 
 interface Drink {
-  id: number;
+  id: string;
   name: string;
   price: number;
   modifications: DrinkModification;
@@ -28,16 +28,51 @@ interface CartItem {
   quantity: number;
 }
 
+type Addon = {
+  addon: {
+    name: string;
+    price: string;
+  };
+  limit: number;
+  sortOrder: number;
+};
+
+type AddonCategory = {
+  name: string;
+  limit: number;
+  sortOrder: number;
+  refProductIds: string[];
+  addons: Addon[];
+};
+
+type GroupedResult = {
+  drinkId: string;
+  drinkName: string;
+  addons: AddonCategory[];
+};
+
 interface StoreContextType {
   drinksTypes: string[];
   drinksFlavours: any;
   drinksOptions: Drink[];
   selectedDrinkType: string;
-  setSelectedDrinkType: any;
+  setSelectedDrinkType: (type: string) => void;
   cart: CartItem[];
-  addToCart: (product: any) => void;
-  removeFromCart: (productId: any) => void;
+  addToCart: (product: Drink) => void;
+  removeFromCart: (productId: string) => void;
   changeDrinkType: (type: string) => void;
+  groupByRefProductId: (
+    addonsData: { addons: AddonCategory[] }[],
+    drinksData: { drinks: Drink[] }
+  ) => GroupedResult[];
+  filterByDrinkId: (
+    groupedResults: GroupedResult[],
+    drinkId: string
+  ) => GroupedResult | undefined;
+  openModal: Boolean;
+  openModalOnClick: any;
+  closeModalOnClick: any;
+  modalDrink: any;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -50,6 +85,9 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   const [drinksOptions, setDrinksOptions] = useState<Drink[]>([]);
   const [drinksFlavours, setDrinksFlavours] = useState<string[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [addon, setAddon] = useState<AddonCategory[]>([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalDrink, setModalDrink] = useState<any>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -61,6 +99,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
         const types = drinks.map((item: Drink) => item.name);
         const flavours = drinks.map((item: Drink) => {
           return {
+            id: item.id,
             drink: item.name,
             flavours: item.modifications.flavours,
           };
@@ -76,7 +115,23 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     fetchProducts();
   }, []);
 
-  const addToCart = (product: any) => {
+  useEffect(() => {
+    const fetchAddons = async () => {
+      try {
+        const response = await fetch("/addonsMock.json");
+
+        const { addons } = await response.json();
+
+        setAddon(addons);
+      } catch (error) {
+        console.error("Error fetching drinks:", error);
+      }
+    };
+
+    fetchAddons();
+  }, []);
+
+  const addToCart = (product: Drink) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find(
         (item) => item.product.id === product.id
@@ -92,7 +147,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
-  const removeFromCart = (productId: number) => {
+  const removeFromCart = (productId: string) => {
     setCart((prevCart) =>
       prevCart
         .map((item) =>
@@ -106,6 +161,56 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
 
   const changeDrinkType = (type: string) => setSelectedDrinkType(type);
 
+  const openModalOnClick = (option: React.SetStateAction<undefined>) => {
+    setModalDrink(option);
+    setOpenModal(true);
+  };
+
+  const closeModalOnClick = () => {
+    setOpenModal(false);
+    setModalDrink([]);
+  };
+
+  // Function to group add-ons by refProductId
+  const groupByRefProductId = (
+    addonsData: { addons: AddonCategory[] }[],
+    drinksData: { drinks: Drink[] }
+  ) => {
+    const groupedResults: GroupedResult[] = [];
+
+    // Iterate over each drink in the drinks data
+    drinksData.drinks.forEach((drink) => {
+      const drinkId = drink.id;
+      const drinkName = drink.name;
+
+      // Filter the addon categories that match the drink's refProductId
+      const matchingAddonCategories = addonsData
+        .flatMap((addonCategory) => addonCategory.addons)
+        .filter((addonCategory) =>
+          addonCategory.refProductIds.includes(drinkId)
+        );
+
+      if (matchingAddonCategories.length > 0) {
+        groupedResults.push({
+          drinkId: drinkId,
+          drinkName: drinkName,
+          addons: matchingAddonCategories,
+        });
+      }
+    });
+
+    return groupedResults;
+  };
+
+  // Function to filter the grouped results by drinkId
+  const filterByDrinkId = (
+    groupedResults: GroupedResult[],
+    drinkId: string
+  ): GroupedResult | undefined => {
+    // Find the group that matches the given drinkId
+    return groupedResults.find((group) => group.drinkId === drinkId);
+  };
+
   return (
     <StoreContext.Provider
       value={{
@@ -118,6 +223,12 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
         changeDrinkType,
         addToCart,
         removeFromCart,
+        groupByRefProductId,
+        filterByDrinkId,
+        openModal,
+        openModalOnClick,
+        closeModalOnClick,
+        modalDrink,
       }}
     >
       {children}

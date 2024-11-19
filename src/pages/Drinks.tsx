@@ -9,6 +9,7 @@ import {
   RightBar,
 } from "../components/StyledComponents";
 import CartLateralBar from "../components/CartLateralBar";
+import Modal from "../components/Modal";
 
 const Drinks = () => {
   return (
@@ -25,6 +26,7 @@ const Drinks = () => {
       <RightBar>
         <CartLateralBar />
       </RightBar>
+      <Modal />
     </Page>
   );
 };
