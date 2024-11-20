@@ -10,15 +10,15 @@ const Sidebar = styled.div`
   justify-items: center;
 `;
 
-const MenuItem = styled.div<{ isInactive?: boolean; isSelected?: boolean }>`
+const MenuItem = styled.div<{ $isInactive?: boolean; $isSelected?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   text-align: center;
   background: ${(props) => {
-    if (props.isSelected) return "#ff7f50";
-    return props.isInactive ? "#e0e0e0" : "#d4904f";
+    if (props.$isSelected) return "#ff7f50";
+    return props.$isInactive ? "#e0e0e0" : "#d4904f";
   }};
   cursor: pointer;
   width: 80%;
@@ -32,6 +32,7 @@ const MenuItem = styled.div<{ isInactive?: boolean; isSelected?: boolean }>`
 `;
 
 const MenuLateralBar = () => {
+  // move this to store to render other components
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const menuOptions: string[] = [
@@ -53,9 +54,8 @@ const MenuLateralBar = () => {
         <MenuItem
           key={option}
           onClick={() => handleClick(option)}
-          isInactive={option !== "Drinks"} // Indicating that all options except "Drinks" are inactive for this test purpose
-          isSelected={option === "Drinks"}
-          // isSelected={option === selectedOption}
+          $isInactive={option !== "Drinks"}
+          $isSelected={option === "Drinks"}
         >
           {/* {option} */}
           {option !== "Drinks" ? `${option} is inactive` : "Drinks"}
