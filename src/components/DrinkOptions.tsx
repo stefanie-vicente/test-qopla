@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useStore } from "../StoreContext";
+import { useStore } from "../context/StoreContext";
 
 const Options = styled.div`
   display: grid;
@@ -18,6 +18,7 @@ const Item = styled.div`
   font-weight: bold;
   cursor: pointer;
   background-color: #76abae;
+  border-radius: 5px;
   width: 80%;
   height: 80%;
 
@@ -28,20 +29,23 @@ const Item = styled.div`
 `;
 
 const DrinkOptions = () => {
-  const { drinksFlavours, selectedDrinkType } = useStore();
+  const { drinksFlavours, selectedDrinkType, openModalOnClick } = useStore();
 
   const filteredDrink = drinksFlavours.filter(
-    (item: { flavours: any; drink: string }) => item.drink === selectedDrinkType
+    (item: { flavours: any; drink: string; id: string }) =>
+      item.drink === selectedDrinkType
   );
 
-  const drinkFlavours = filteredDrink.length
-    ? filteredDrink.at(-1)?.flavours
-    : [];
+  const drinkFlavours = filteredDrink.length ? filteredDrink.at(-1) : [];
+
+  const test = () => {
+    openModalOnClick(filteredDrink[0].id);
+  };
 
   return (
     <Options>
-      {drinkFlavours.map((option: any) => (
-        <Item key={option?.name} onClick={() => console.log(option)}>
+      {drinkFlavours?.flavours?.map((option: any) => (
+        <Item key={option?.name} onClick={test}>
           {option?.name}
         </Item>
       ))}

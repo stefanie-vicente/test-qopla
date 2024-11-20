@@ -5,8 +5,18 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { Drink, CartItem, AddonCategory, StoreContextType } from "./StoreTypes";
-import { filterByDrinkId, groupByRefProductId } from "./helpers";
+import {
+  Drink,
+  CartItem,
+  AddonCategory,
+  StoreContextType,
+  GroupedResult,
+} from "./StoreTypes";
+import {
+  filterByDrinkId,
+  groupByRefProductId,
+  transformDrinkData,
+} from "./helpers";
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
@@ -16,7 +26,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   const [selectedDrinkType, setSelectedDrinkType] = useState<string>("Soda");
   const [drinksTypes, setDrinksTypes] = useState<string[]>([]);
   const [drinksOptions, setDrinksOptions] = useState<Drink[]>([]);
-  const [drinksFlavours, setDrinksFlavours] = useState<any>([]);
+  const [drinksFlavours, setDrinksFlavours] = useState<any[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [addonCategories, setAddonCategories] = useState<AddonCategory[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -88,9 +98,20 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     );
   };
 
-  const openModalOnClick = (option: any) => {
-    setModalDrink(option);
-    setOpenModal(true);
+  const productById = groupByRefProductId(addonCategories, drinksOptions);
+
+  const openModalOnClick = (id: string) => {
+    const drinkGroup: GroupedResult | undefined = filterByDrinkId(
+      productById,
+      id
+    );
+    if (drinkGroup) {
+      const transformedData = transformDrinkData(drinkGroup);
+      setModalDrink(transformedData);
+      setOpenModal(true);
+    } else {
+      console.error("Drink group not found for id:", id);
+    }
   };
 
   const closeModalOnClick = () => {

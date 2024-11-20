@@ -1,4 +1,4 @@
-import { StoreProvider } from "./StoreContext";
+import { StoreProvider } from "./context/StoreContext";
 import Drinks from "./pages/Drinks";
 import "./App.css";
 

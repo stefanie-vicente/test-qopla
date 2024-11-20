@@ -1,52 +1,170 @@
-import { useStore } from "../StoreContext";
+import { useState } from "react";
+import { useStore } from "../context/StoreContext";
 import styled from "styled-components";
 
-const ModalCard = styled.div`
+// Type definitions
+interface Addon {
+  name: string;
+  price: string;
+}
+
+interface AddonGroup {
+  name: string;
+  addons: {
+    addon: Addon;
+  }[];
+}
+
+interface Drink {
+  drinkId: string;
+  drinkName: string;
+  addons: AddonGroup[];
+}
+
+interface TransformedDrink {
+  drinkName: string;
+  [groupName: string]: string | Record<string, number>;
+}
+
+const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 `;
 
-const ModalContent = styled.div`
-  background-color: white;
+const ModalContainer = styled.div`
+  background: white;
   padding: 20px;
-  border-radius: 5px;
-  min-width: 300px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const Button = styled.button`
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #007bff;
+const ModalTitle = styled.h3`
+  margin-bottom: 20px;
+`;
+
+const ModalSection = styled.div`
+  margin-bottom: 15px;
+`;
+
+const ModalGroupTitle = styled.h4`
+  margin-bottom: 10px;
+`;
+
+const OptionList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+const OptionItem = styled.li`
+  margin-bottom: 5px;
+
+  label {
+    display: flex;
+    align-items: center;
+
+    input {
+      margin-right: 10px;
+    }
+  }
+`;
+
+const ModalButton = styled.button`
+  background: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border-radius: 5px;
   cursor: pointer;
+  margin-right: 10px;
 
   &:hover {
-    background-color: #0056b3;
+    background: #0056b3;
+  }
+
+  &:last-child {
+    background: #6c757d;
+
+    &:hover {
+      background: #5a6268;
+    }
   }
 `;
 
 const Modal = () => {
-  const { closeModalOnClick, openModal } = useStore();
+  const {
+    closeModalOnClick,
+    openModal,
+    addToCart,
+    selectedDrinkType,
+    modalDrink,
+  } = useStore();
+  // needs a selected drink flavour and addon limit
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, string>
+  >({});
 
   if (!openModal) return null;
+  console.log(selectedDrinkType);
+
+  const handleSelection = (groupName: string, optionName: string) => {
+    setSelectedOptions((prev: any) => ({
+      ...prev,
+      [groupName]: optionName,
+    }));
+  };
 
   return (
-    <ModalCard>
-      <ModalContent>
-        <h2>Modifications and addons</h2>
-        <Button onClick={() => console.log("add")}>Add to Cart</Button>
-        <Button onClick={closeModalOnClick}>Cancel</Button>
-      </ModalContent>
-    </ModalCard>
+    <ModalOverlay>
+      <ModalContainer>
+        <ModalTitle>{modalDrink.drinkName}</ModalTitle>
+        {Object.keys(modalDrink).map((groupName) => {
+          if (groupName === "drinkName") return null;
+
+          const groupOptions = modalDrink[groupName] as Record<string, number>;
+
+          return (
+            <ModalSection key={groupName}>
+              <ModalGroupTitle>{groupName}</ModalGroupTitle>
+              <OptionList>
+                {Object.keys(groupOptions).map((optionName) => (
+                  <OptionItem key={optionName}>
+                    <label>
+                      <input
+                        type="radio"
+                        name={groupName}
+                        value={optionName}
+                        checked={selectedOptions[groupName] === optionName}
+                        onChange={() => handleSelection(groupName, optionName)}
+                      />
+                      {optionName} - {groupOptions[optionName]} kr
+                    </label>
+                  </OptionItem>
+                ))}
+              </OptionList>
+            </ModalSection>
+          );
+        })}
+        <ModalButton onClick={closeModalOnClick}>Close</ModalButton>
+        <ModalButton
+          onClick={() => {
+            console.log("Selected Options:", selectedOptions);
+            closeModalOnClick();
+          }}
+        >
+          Confirm
+        </ModalButton>
+      </ModalContainer>
+    </ModalOverlay>
   );
 };
 
