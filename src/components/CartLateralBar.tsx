@@ -1,3 +1,18 @@
+// precisa receber do modal:
+// - sabor / preço
+// - addon / preço
+
+// precisa ser capaz de:
+// - adicionar e remover produto
+
+// precisa calcular:
+// - valor total sempre que alguma mudança de produto acontecer
+
+// importar da Store:
+// - addToCart
+// - removeFromCart
+// pay now button should show something since the payment function does not exist
+
 const CartLateralBar = () => {
   const products: string[] = ["coca", "sprite", "fanta"];
   return (
@@ -6,8 +21,9 @@ const CartLateralBar = () => {
         <h3>Order</h3>
       </div>
       <div>
-        {products.map((p) => (
+        {products.map((p, i) => (
           <div
+            key={i}
             style={{
               display: "flex",
               gap: "10px",
@@ -15,7 +31,7 @@ const CartLateralBar = () => {
               marginBottom: "10px",
             }}
           >
-            <p key={p}>{p}</p>
+            <p key={i}>{p}</p>
             <button onClick={() => console.log("add", p)}>add</button>
             <button onClick={() => console.log("remove", p)}>remove</button>
           </div>
