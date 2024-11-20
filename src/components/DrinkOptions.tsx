@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useStore } from "../context/StoreContext";
+import { Drink, DrinkFlavour } from "../interfaces/DrinkInterface";
 
 const Options = styled.div`
   display: grid;
@@ -28,25 +29,26 @@ const Item = styled.div`
   }
 `;
 
+// change selectedDrinkType to id
 const DrinkOptions = () => {
-  const { drinksFlavours, selectedDrinkType, openModalOnClick } = useStore();
+  const { drinks, selectedDrinkType, openModalOnClick } = useStore();
 
-  const filteredDrink = drinksFlavours.filter(
-    (item: { flavours: any; drink: string; id: string }) =>
-      item.drink === selectedDrinkType
+  const filteredDrink = drinks.filter(
+    (drink: Drink) => drink.name === selectedDrinkType
   );
 
-  const drinkFlavours = filteredDrink.length ? filteredDrink.at(-1) : [];
+  const drinkFlavours =
+    filteredDrink.length > 0 ? filteredDrink[0]?.modifications?.flavours : [];
 
-  const test = () => {
-    openModalOnClick(filteredDrink[0].id);
+  const test = (flavour: string) => {
+    openModalOnClick(filteredDrink[0].id, flavour);
   };
 
   return (
     <Options>
-      {drinkFlavours?.flavours?.map((option: any) => (
-        <Item key={option?.name} onClick={test}>
-          {option?.name}
+      {drinkFlavours?.map((flavour: DrinkFlavour) => (
+        <Item key={flavour?.name} onClick={() => test(flavour.name)}>
+          {flavour?.name}
         </Item>
       ))}
     </Options>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useStore } from "../StoreContext";
+import { useStore } from "../context/StoreContext";
 
 const Drinks = styled.div`
   display: grid;
@@ -20,6 +20,7 @@ const DrinkItem = styled.div`
   background-color: #76abae;
   width: 80%;
   height: 80%;
+  border-radius: 5px;
 
   &:hover {
     transform: scale(1.05);
@@ -28,11 +29,10 @@ const DrinkItem = styled.div`
 `;
 
 const DrinksTopBar = () => {
-  const { drinksTypes, changeDrinkType } = useStore();
+  const { drinksTypes, setSelectedDrinkType } = useStore();
 
   const handleClick = (item: string) => {
-    changeDrinkType(item);
-    console.log(`You clicked on ${item}`);
+    setSelectedDrinkType(item);
   };
 
   return (

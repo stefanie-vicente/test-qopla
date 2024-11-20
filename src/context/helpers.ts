@@ -1,7 +1,9 @@
-import { Drink, AddonCategory, GroupedResult } from "./StoreTypes";
+import { GroupedResult, InputDrink, OutputDrink } from "./StoreTypes";
+import { Drink } from "../interfaces/DrinkInterface";
+import { AddonType } from "../interfaces/AddonInterface";
 
 export const groupByRefProductId = (
-  addonsData: AddonCategory[],
+  addonsData: AddonType[],
   drinksData: Drink[]
 ) => {
   return drinksData
@@ -13,6 +15,8 @@ export const groupByRefProductId = (
         ? {
             drinkId: drink.id,
             drinkName: drink.name,
+            drinkPrice: drink.price,
+            modifications: drink.modifications,
             addons: matchingAddonCategories,
           }
         : null;
@@ -25,45 +29,30 @@ export const filterByDrinkId = (
   drinkId: string
 ) => groupedResults.find((group) => group.drinkId === drinkId);
 
-// Type definitions
-interface Addon {
-  name: string;
-  price: string;
-}
-
-interface AddonGroup {
-  name: string;
-  addons: {
-    addon: Addon;
-  }[];
-}
-
-export interface DrinkModal {
-  drinkId: string;
-  drinkName: string;
-  addons: AddonGroup[];
-}
-
-interface TransformedDrink {
-  drinkName: string;
-  [groupName: string]: string | Record<string, number>;
-}
-
-// Function to transform data
-export const transformDrinkData = (drink: DrinkModal): TransformedDrink => {
-  let transformedData: TransformedDrink = {
-    drinkName: drink.drinkName,
+// change hardcoded result
+export function transformDrinkData(
+  input: InputDrink,
+  drinkFlavour: string
+): OutputDrink {
+  const result: OutputDrink = {
+    drinkId: input.drinkId,
+    drinkName: input.drinkName,
+    drinkFlavour: drinkFlavour,
+    drinkPrice: 10,
+    addons: {},
   };
+  for (const addonCategory of input.addons) {
+    const types: { [key: string]: number } = {};
 
-  drink.addons.forEach((addonGroup) => {
-    const groupName = addonGroup.name;
+    for (const addon of addonCategory.addons) {
+      types[addon.addon.name] = addon.addon.price;
+    }
 
-    // Convert add-ons into a key-value pair of name and price
-    transformedData[groupName] = addonGroup.addons.reduce((acc, addon) => {
-      acc[addon.addon.name] = parseFloat(addon.addon.price); // Convert price to a number
-      return acc;
-    }, {} as Record<string, number>);
-  });
+    result.addons[addonCategory.name] = {
+      limit: addonCategory.limit,
+      types,
+    };
+  }
 
-  return transformedData;
-};
+  return result;
+}

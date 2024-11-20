@@ -5,10 +5,11 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
+import { Drink } from "../interfaces/DrinkInterface";
+import { AddonType } from "../interfaces/AddonInterface";
 import {
-  Drink,
   CartItem,
-  AddonCategory,
+  ModalDrink,
   StoreContextType,
   GroupedResult,
 } from "./StoreTypes";
@@ -23,14 +24,13 @@ const StoreContext = createContext<StoreContextType | undefined>(undefined);
 export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [selectedDrinkType, setSelectedDrinkType] = useState<string>("Soda");
+  const [drinks, setDrinks] = useState<Drink[]>([]);
   const [drinksTypes, setDrinksTypes] = useState<string[]>([]);
-  const [drinksOptions, setDrinksOptions] = useState<Drink[]>([]);
-  const [drinksFlavours, setDrinksFlavours] = useState<any[]>([]);
+  const [selectedDrinkType, setSelectedDrinkType] = useState<string>("Soda");
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [addonCategories, setAddonCategories] = useState<AddonCategory[]>([]);
+  const [addonCategories, setAddonCategories] = useState<AddonType[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [modalDrink, setModalDrink] = useState<any>(null);
+  const [modalDrink, setModalDrink] = useState<ModalDrink>();
 
   useEffect(() => {
     const fetchDrinks = async () => {
@@ -39,15 +39,9 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
         const { drinks } = await response.json();
 
         const types = drinks.map((drink: Drink) => drink.name);
-        const flavours = drinks.map((drink: Drink) => ({
-          id: drink.id,
-          drink: drink.name,
-          flavours: drink.modifications.flavours,
-        }));
 
         setDrinksTypes(types);
-        setDrinksOptions(drinks);
-        setDrinksFlavours(flavours);
+        setDrinks(drinks);
       } catch (error) {
         console.error("Error fetching drinks:", error);
       }
@@ -98,15 +92,15 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     );
   };
 
-  const productById = groupByRefProductId(addonCategories, drinksOptions);
+  const productById = groupByRefProductId(addonCategories, drinks);
 
-  const openModalOnClick = (id: string) => {
+  const openModalOnClick = (id: string, flavour: string) => {
     const drinkGroup: GroupedResult | undefined = filterByDrinkId(
       productById,
       id
     );
     if (drinkGroup) {
-      const transformedData = transformDrinkData(drinkGroup);
+      const transformedData = transformDrinkData(drinkGroup, flavour);
       setModalDrink(transformedData);
       setOpenModal(true);
     } else {
@@ -116,23 +110,19 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
 
   const closeModalOnClick = () => {
     setOpenModal(false);
-    setModalDrink(null);
+    setModalDrink(undefined);
   };
 
   return (
     <StoreContext.Provider
       value={{
         drinksTypes,
-        drinksFlavours,
-        drinksOptions,
+        drinks,
         selectedDrinkType,
         setSelectedDrinkType,
         cart,
         addToCart,
         removeFromCart,
-        changeDrinkType: (type: string) => setSelectedDrinkType(type),
-        addonCategories,
-        groupByRefProductId,
         filterByDrinkId,
         openModal,
         openModalOnClick,

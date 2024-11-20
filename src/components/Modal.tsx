@@ -1,30 +1,6 @@
 import { useState } from "react";
-import { useStore } from "../context/StoreContext";
 import styled from "styled-components";
-
-// Type definitions
-interface Addon {
-  name: string;
-  price: string;
-}
-
-interface AddonGroup {
-  name: string;
-  addons: {
-    addon: Addon;
-  }[];
-}
-
-interface Drink {
-  drinkId: string;
-  drinkName: string;
-  addons: AddonGroup[];
-}
-
-interface TransformedDrink {
-  drinkName: string;
-  [groupName: string]: string | Record<string, number>;
-}
+import { useStore } from "../context/StoreContext";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -100,21 +76,21 @@ const ModalButton = styled.button`
   }
 `;
 
+// importar da Store:
+// - addToCart
+// - removeFromCart
+
+// handleSelection should be addToCart
+// Close / cancel should clean modalDrink and not add product to the cart
+// Confirm should add product to the cart
+
 const Modal = () => {
-  const {
-    closeModalOnClick,
-    openModal,
-    addToCart,
-    selectedDrinkType,
-    modalDrink,
-  } = useStore();
-  // needs a selected drink flavour and addon limit
+  const { closeModalOnClick, openModal, addToCart, modalDrink } = useStore();
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string>
   >({});
 
   if (!openModal) return null;
-  console.log(selectedDrinkType);
 
   const handleSelection = (groupName: string, optionName: string) => {
     setSelectedOptions((prev: any) => ({
@@ -126,7 +102,7 @@ const Modal = () => {
   return (
     <ModalOverlay>
       <ModalContainer>
-        <ModalTitle>{modalDrink.drinkName}</ModalTitle>
+        {/* <ModalTitle>{modalDrink.drinkName}</ModalTitle>
         {Object.keys(modalDrink).map((groupName) => {
           if (groupName === "drinkName") return null;
 
@@ -153,7 +129,7 @@ const Modal = () => {
               </OptionList>
             </ModalSection>
           );
-        })}
+        })} */}
         <ModalButton onClick={closeModalOnClick}>Close</ModalButton>
         <ModalButton
           onClick={() => {

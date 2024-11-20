@@ -1,68 +1,66 @@
-export interface Drink {
-  id: string;
-  name: string;
-  price: number;
-  modifications: DrinkModification;
-}
-
-export interface DrinkModification {
-  size: DrinkModificationOptions[];
-  flavours: DrinkModificationOptions[];
-}
-
-export interface DrinkModificationOptions {
-  name: string;
-  addonPrice: number;
-}
+import { Drink } from "../interfaces/DrinkInterface";
+import { Addon, AddonType } from "../interfaces/AddonInterface";
 
 export interface CartItem {
   product: Drink;
   quantity: number;
 }
 
-export interface Addon {
-  addon: {
-    name: string;
-    price: string;
-  };
-  limit: number;
-  sortOrder: number;
+export interface GroupedResult {
+  drinkId: string;
+  drinkName: string;
+  addons: AddonType[];
 }
 
-export interface AddonCategory {
+export interface ModalDrink {
+  drinkId: string;
+  drinkName: string;
+  drinkFlavour: string;
+  drinkPrice: number;
+  addons?: any;
+}
+export type InputAddon = {
   name: string;
   limit: number;
   sortOrder: number;
   refProductIds: string[];
   addons: Addon[];
-}
+};
 
-export interface GroupedResult {
+export type InputDrink = {
   drinkId: string;
   drinkName: string;
-  addons: AddonCategory[];
-}
+  addons: InputAddon[];
+};
+
+export type OutputDrink = {
+  drinkId: string;
+  drinkName: string;
+  drinkFlavour: string;
+  drinkPrice: number;
+  addons: {
+    [key: string]: {
+      limit: number;
+      types: {
+        [addonName: string]: number;
+      };
+    };
+  };
+};
 
 export interface StoreContextType {
   addToCart: (product: Drink) => void;
-  addonCategories: AddonCategory[];
   cart: CartItem[];
-  changeDrinkType: (type: string) => void;
   closeModalOnClick: () => void;
   filterByDrinkId: (
     groupedResults: GroupedResult[],
     drinkId: string
   ) => GroupedResult | undefined;
-  groupByRefProductId: (
-    addonsData: AddonCategory[],
-    drinksData: Drink[]
-  ) => GroupedResult[];
-  drinksFlavours: any;
-  drinksOptions: Drink[];
+  drinks: Drink[];
   drinksTypes: string[];
-  modalDrink: any;
+  modalDrink?: ModalDrink;
   openModal: boolean;
-  openModalOnClick: (option: any) => void;
+  openModalOnClick: (id: string, flavour: string) => void;
   removeFromCart: (productId: string) => void;
   selectedDrinkType: string;
   setSelectedDrinkType: (type: string) => void;
