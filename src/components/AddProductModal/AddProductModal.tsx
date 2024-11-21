@@ -17,7 +17,7 @@ const AddProductModal = () => {
   const { openModal, modalData, addToCart, closeModalOnClick } = useStore();
 
   const [selectedProduct, setSelectedProduct] = useState<CartProduct>({
-    typeId: "",
+    id: "",
     flavour: "",
     price: 0,
     modifications: [],
@@ -26,7 +26,7 @@ const AddProductModal = () => {
   useEffect(() => {
     if (modalData) {
       setSelectedProduct({
-        typeId: modalData.id,
+        id: modalData.id,
         flavour: modalData.flavour,
         price: modalData.price,
         modifications: [],
@@ -44,11 +44,11 @@ const AddProductModal = () => {
   const handleOptionChange = (
     type: string,
     modification: string,
-    price: number
+    price: number,
   ) => {
     const newModification = { type, modification, price };
     const modifications = selectedProduct?.modifications?.filter(
-      (mod) => mod.type !== type
+      (mod) => mod.type !== type,
     );
     modifications?.push(newModification);
     setSelectedProduct((prev) => ({ ...prev, modifications }));
@@ -71,7 +71,7 @@ const AddProductModal = () => {
                     handleOptionChange(
                       addonName,
                       optionName,
-                      groupOptions[optionName]
+                      groupOptions[optionName],
                     )
                   }
                 />
@@ -88,7 +88,7 @@ const AddProductModal = () => {
     if (!modalData.addons) return null;
 
     return Object.entries(modalData.addons).map(([addonName, addon]) =>
-      renderAddonOptions(addon, addonName)
+      renderAddonOptions(addon, addonName),
     );
   };
 

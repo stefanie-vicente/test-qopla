@@ -33,7 +33,10 @@ export const MenuItem = styled.div<{
   border-radius: 5px;
   border: none;
   outline: none;
-  transition: background-color 0.3s, transform 0.2s, opacity 0.3s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s,
+    opacity 0.3s;
 
   &:hover {
     opacity: 0.9;

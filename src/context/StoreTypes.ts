@@ -51,7 +51,7 @@ export interface StoreContextType {
   closeModalOnClick: () => void;
   filterByProductId: (
     groupedResults: GroupedResult[],
-    id: string
+    id: string,
   ) => GroupedResult | undefined;
   drinks: Product[];
   drinksTypes: string[];

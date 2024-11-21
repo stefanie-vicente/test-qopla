@@ -4,12 +4,12 @@ import { AddonType } from "../interfaces/AddonInterface";
 
 export const groupByRefProductId = (
   addonsData: AddonType[],
-  productsData: Product[]
+  productsData: Product[],
 ) => {
   return productsData
     .map((product) => {
       const matchingAddonCategories = addonsData.filter((addonCategory) =>
-        addonCategory.refProductIds.includes(product.id)
+        addonCategory.refProductIds.includes(product.id),
       );
       return matchingAddonCategories.length > 0
         ? {
@@ -26,12 +26,12 @@ export const groupByRefProductId = (
 
 export const filterByProductId = (
   groupedResults: GroupedResult[],
-  id: string
+  id: string,
 ) => groupedResults.find((group) => group.id === id);
 
 export function transformProductData(
   input: InputProduct,
-  flavour: string
+  flavour: string,
 ): OutputProduct {
   const result: OutputProduct = {
     id: input.id,

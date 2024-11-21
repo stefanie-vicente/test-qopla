@@ -66,31 +66,31 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     setCart((prevCart: CartProduct[]) => {
       const existingItem: CartProduct | undefined = prevCart.find(
         (item: any) =>
-          item.product.typeId === product.typeId &&
+          item.product.id === product.id &&
           item.product.flavour === product.flavour &&
           JSON.stringify(item.product.modifications) ===
-            JSON.stringify(product.modifications)
+            JSON.stringify(product.modifications),
       );
 
       if (existingItem && existingItem.quantity) {
         if (existingItem.quantity > 1) {
           return prevCart.map((item: any) =>
-            item.product.typeId === product.typeId &&
+            item.product.id === product.id &&
             item.product.flavour === product.flavour &&
             JSON.stringify(item.product.modifications) ===
               JSON.stringify(product.modifications)
               ? { ...item, quantity: item.quantity - 1 }
-              : item
+              : item,
           );
         } else {
           return prevCart.filter(
             (item: any) =>
               !(
-                item.product.typeId === product.typeId &&
+                item.product.id === product.id &&
                 item.product.flavour === product.flavour &&
                 JSON.stringify(item.product.modifications) ===
                   JSON.stringify(product.modifications)
-              )
+              ),
           );
         }
       }
@@ -103,20 +103,20 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     setCart((prevCart: CartProduct[]) => {
       const existingItem = prevCart.find(
         (item: any) =>
-          item.product.typeId === product.typeId &&
+          item.product.id === product.id &&
           item.product.flavour === product.flavour &&
           JSON.stringify(item.product.modifications) ===
-            JSON.stringify(product.modifications)
+            JSON.stringify(product.modifications),
       );
 
       if (existingItem) {
         return prevCart.map((item: any) =>
-          item.product.typeId === product.typeId &&
+          item.product.id === product.id &&
           item.product.flavour === product.flavour &&
           JSON.stringify(item.product.modifications) ===
             JSON.stringify(product.modifications)
             ? { ...item, quantity: item.quantity + 1 }
-            : item
+            : item,
         );
       }
 
@@ -130,7 +130,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   const openModalOnClick = (id: string, flavour: string) => {
     const productGroup: GroupedResult | undefined = filterByProductId(
       productById,
-      id
+      id,
     );
     if (productGroup) {
       const transformedData = transformProductData(productGroup, flavour);

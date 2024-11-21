@@ -26,7 +26,7 @@ const CartLateralBar = () => {
       const basePrice = item.product.price;
       const modificationsPrice = item.product.modifications.reduce(
         (sum: number, mod: any) => sum + parseFloat(mod.price),
-        0
+        0,
       );
       return total + (basePrice + modificationsPrice) * item.quantity;
     }, 0);

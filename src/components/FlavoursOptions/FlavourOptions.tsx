@@ -35,7 +35,6 @@ const Item = styled.button`
   }
 `;
 
-// arrumar
 const FlavourOptions = () => {
   const { drinks, selectedProductType, openModalOnClick } = useStore();
 
