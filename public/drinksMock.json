@@ -36,7 +36,7 @@
           { "name": "Mango", "addonPrice": 5 },
           { "name": "Pineapple", "addonPrice": 5 },
           { "name": "Mixed Berry", "addonPrice": 10 },
-          { "name": "Green (Spinach + Kale)", "addonPrice": 10 }
+          { "name": "Green", "addonPrice": 10 }
         ]
       }
     }, 
