@@ -12,7 +12,7 @@ const Options = styled.div`
   justify-items: center;
 `;
 
-const Item = styled.button<{ isSelected: boolean }>`
+const Item = styled.button<{ $isSelected: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,8 +20,7 @@ const Item = styled.button<{ isSelected: boolean }>`
   font-weight: bold;
   cursor: pointer;
   font-size: 18px;
-  background-color: ${(props: { isSelected: boolean }) =>
-    props.isSelected ? "#004b47" : "#006f6a"};
+  background-color: ${(props) => (props.$isSelected ? "#004b47" : "#006f6a")};
   border-radius: 5px;
   width: 80%;
   height: 80%;
@@ -35,16 +34,12 @@ const Item = styled.button<{ isSelected: boolean }>`
     outline: 2px solid #ffcc00;
   }
 `;
-// arrumar
+
 const ProductOptionsTopBar = () => {
   const { drinksTypes, setSelectedProductType, selectedProductType } =
     useStore();
-  const [selectedOption, setSelectedOption] = useState<string | null>(
-    selectedProductType
-  );
 
   const handleClick = (item: string) => {
-    setSelectedOption(item);
     setSelectedProductType(item);
   };
 
@@ -54,7 +49,7 @@ const ProductOptionsTopBar = () => {
         <Item
           key={option}
           onClick={() => handleClick(option)}
-          isSelected={selectedOption === option}
+          $isSelected={selectedProductType === option}
           aria-label={`Select ${option} drink`}
         >
           {option}
