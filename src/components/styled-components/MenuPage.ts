@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Page = styled.div`
   display: grid;
-  grid-template-columns: 1.5fr 2fr 2fr 2fr 2fr 4.5fr;
+  grid-template-columns: 2fr 2fr 2fr 2fr 2fr 4fr;
   grid-template-rows: repeat(5, 1fr);
   gap: 0px;
   height: 90vh;
