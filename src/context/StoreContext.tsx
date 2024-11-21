@@ -4,16 +4,16 @@ import React, {
   useState,
   useEffect,
   ReactNode,
-} from "react";
-import { Product } from "../interfaces/ProductInterface";
-import { CartProduct } from "../interfaces/CartInterface";
-import { AddonType } from "../interfaces/AddonInterface";
-import { ModalData, StoreContextType, GroupedResult } from "./StoreTypes";
+} from 'react';
+import { Product } from '../interfaces/ProductInterface';
+import { CartProduct } from '../interfaces/CartInterface';
+import { AddonType } from '../interfaces/AddonInterface';
+import { ModalData, StoreContextType, GroupedResult } from './StoreTypes';
 import {
   filterByProductId,
   groupByRefProductId,
   transformProductData,
-} from "./helpers";
+} from './helpers';
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
@@ -24,7 +24,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   const [drinksTypes, setDrinksTypes] = useState<string[]>([]);
   // can be changed according to the default menu item
   const [selectedProductType, setSelectedProductType] =
-    useState<string>("Soda");
+    useState<string>('Soda');
   const [cart, setCart] = useState<CartProduct[]>([]);
   const [addonCategories, setAddonCategories] = useState<AddonType[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -33,7 +33,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const fetchDrinks = async () => {
       try {
-        const response = await fetch("/drinksMock.json");
+        const response = await fetch('/drinksMock.json');
         const { drinks } = await response.json();
 
         const types = drinks.map((drink: Product) => drink.name);
@@ -41,7 +41,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
         setDrinksTypes(types);
         setDrinks(drinks);
       } catch (error) {
-        console.error("Error fetching drinks:", error);
+        console.error('Error fetching drinks:', error);
       }
     };
 
@@ -51,11 +51,11 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const fetchAddons = async () => {
       try {
-        const response = await fetch("/addonsMock.json");
+        const response = await fetch('/addonsMock.json');
         const { addons } = await response.json();
         setAddonCategories(addons);
       } catch (error) {
-        console.error("Error fetching addons:", error);
+        console.error('Error fetching addons:', error);
       }
     };
 
@@ -124,7 +124,6 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
-  // arrumar
   const productById = groupByRefProductId(addonCategories, drinks);
 
   const openModalOnClick = (id: string, flavour: string) => {
@@ -137,7 +136,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
       setModalData(transformedData);
       setOpenModal(true);
     } else {
-      console.error("Product group not found for id:", id);
+      console.error('Product group not found for id:', id);
     }
   };
 
@@ -171,7 +170,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
 export const useStore = (): StoreContextType => {
   const context = useContext(StoreContext);
   if (!context) {
-    throw new Error("useStore must be used within a StoreProvider");
+    throw new Error('useStore must be used within a StoreProvider');
   }
   return context;
 };
