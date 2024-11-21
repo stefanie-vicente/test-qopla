@@ -1,11 +1,12 @@
-import Drinks from "./pages/Drinks";
+import { StoreProvider } from "./context/StoreContext";
+import Menu from "./pages/Menu";
 import "./App.css";
 
 function App() {
   return (
-    <>
-      <Drinks />
-    </>
+    <StoreProvider>
+      <Menu />
+    </StoreProvider>
   );
 }
 

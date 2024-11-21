@@ -44,10 +44,7 @@
       "name": "To remove",
       "limit": 1,
       "sortOrder": 0,
-      "refProductIds": [
-        "a_very_unique_smoothie_id",
-        "a_very_unique_juice_id"
-      ],
+      "refProductIds": ["a_very_unique_smoothie_id", "a_very_unique_juice_id"],
       "addons": [
         {
           "addon": {
@@ -63,10 +60,7 @@
       "name": "Sugar level",
       "limit": 1,
       "sortOrder": 0,
-      "refProductIds": [
-        "a_very_unique_smoothie_id",
-        "a_very_unique_juice_id"
-      ],
+      "refProductIds": ["a_very_unique_smoothie_id", "a_very_unique_juice_id"],
       "addons": [
         {
           "addon": {
@@ -159,7 +153,8 @@
           },
           "limit": 1,
           "sortOrder": 2
-        }, {
+        },
+        {
           "addon": {
             "name": "Extra ice",
             "price": "0"
