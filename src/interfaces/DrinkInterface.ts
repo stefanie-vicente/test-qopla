@@ -8,25 +8,33 @@ export interface Modifications {
   size: ModificationOption[];
   flavours: ModificationOption[];
 }
-
 export interface ModificationOption {
   name: string;
   addonPrice: number;
 }
-
 export interface Modification {
   sizes: DrinkSize;
   flavours: DrinkFlavour;
 }
-
 export interface DrinkSize {
   name: string;
   addonPrice: number;
 }
-
 export interface DrinkFlavour {
   name: string;
   addonPrice: number;
+}
+export interface DrinkCart {
+  typeId: DrinkId | string;
+  flavour: string;
+  price: number;
+  quantity?: number;
+  modifications?: DrinkCartModification[];
+}
+export interface DrinkCartModification {
+  type: string;
+  modification: string;
+  price: number;
 }
 
 export type DrinkId =

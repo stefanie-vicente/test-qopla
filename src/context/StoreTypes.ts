@@ -1,14 +1,9 @@
-import { Drink } from "../interfaces/DrinkInterface";
+import { Drink, DrinkCart } from "../interfaces/DrinkInterface";
 import { Addon, AddonType } from "../interfaces/AddonInterface";
-
-export interface CartItem {
-  product: Drink;
-  quantity: number;
-}
-
 export interface GroupedResult {
   drinkId: string;
   drinkName: string;
+  drinkPrice: number;
   addons: AddonType[];
 }
 
@@ -30,6 +25,7 @@ export type InputAddon = {
 export type InputDrink = {
   drinkId: string;
   drinkName: string;
+  drinkPrice: number;
   addons: InputAddon[];
 };
 
@@ -49,8 +45,8 @@ export type OutputDrink = {
 };
 
 export interface StoreContextType {
-  addToCart: (product: Drink) => void;
-  cart: CartItem[];
+  addToCart: (product: DrinkCart) => void;
+  cart: DrinkCart[];
   closeModalOnClick: () => void;
   filterByDrinkId: (
     groupedResults: GroupedResult[],
@@ -61,7 +57,7 @@ export interface StoreContextType {
   modalDrink?: ModalDrink;
   openModal: boolean;
   openModalOnClick: (id: string, flavour: string) => void;
-  removeFromCart: (productId: string) => void;
+  removeFromCart: (product: DrinkCart) => void;
   selectedDrinkType: string;
   setSelectedDrinkType: (type: string) => void;
 }

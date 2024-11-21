@@ -29,7 +29,6 @@ export const filterByDrinkId = (
   drinkId: string
 ) => groupedResults.find((group) => group.drinkId === drinkId);
 
-// change hardcoded result
 export function transformDrinkData(
   input: InputDrink,
   drinkFlavour: string
@@ -38,9 +37,10 @@ export function transformDrinkData(
     drinkId: input.drinkId,
     drinkName: input.drinkName,
     drinkFlavour: drinkFlavour,
-    drinkPrice: 10,
+    drinkPrice: input.drinkPrice,
     addons: {},
   };
+
   for (const addonCategory of input.addons) {
     const types: { [key: string]: number } = {};
 

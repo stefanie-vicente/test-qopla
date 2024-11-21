@@ -5,14 +5,9 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { Drink } from "../interfaces/DrinkInterface";
+import { Drink, DrinkCart } from "../interfaces/DrinkInterface";
 import { AddonType } from "../interfaces/AddonInterface";
-import {
-  CartItem,
-  ModalDrink,
-  StoreContextType,
-  GroupedResult,
-} from "./StoreTypes";
+import { ModalDrink, StoreContextType, GroupedResult } from "./StoreTypes";
 import {
   filterByDrinkId,
   groupByRefProductId,
@@ -27,7 +22,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   const [drinks, setDrinks] = useState<Drink[]>([]);
   const [drinksTypes, setDrinksTypes] = useState<string[]>([]);
   const [selectedDrinkType, setSelectedDrinkType] = useState<string>("Soda");
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<DrinkCart[]>([]);
   const [addonCategories, setAddonCategories] = useState<AddonType[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalDrink, setModalDrink] = useState<ModalDrink>();
@@ -64,32 +59,66 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     fetchAddons();
   }, []);
 
-  const addToCart = (product: Drink) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find(
-        (item) => item.product.id === product.id
+  const removeFromCart = (product: DrinkCart) => {
+    setCart((prevCart: DrinkCart[]) => {
+      const existingItem: DrinkCart | undefined = prevCart.find(
+        (item: any) =>
+          item.product.typeId === product.typeId &&
+          item.product.flavour === product.flavour &&
+          JSON.stringify(item.product.modifications) ===
+            JSON.stringify(product.modifications)
       );
+
+      if (existingItem && existingItem.quantity) {
+        if (existingItem.quantity > 1) {
+          return prevCart.map((item: any) =>
+            item.product.typeId === product.typeId &&
+            item.product.flavour === product.flavour &&
+            JSON.stringify(item.product.modifications) ===
+              JSON.stringify(product.modifications)
+              ? { ...item, quantity: item.quantity - 1 }
+              : item
+          );
+        } else {
+          return prevCart.filter(
+            (item: any) =>
+              !(
+                item.product.typeId === product.typeId &&
+                item.product.flavour === product.flavour &&
+                JSON.stringify(item.product.modifications) ===
+                  JSON.stringify(product.modifications)
+              )
+          );
+        }
+      }
+
+      return prevCart;
+    });
+  };
+
+  const addToCart = (product: DrinkCart) => {
+    setCart((prevCart: DrinkCart[]) => {
+      const existingItem = prevCart.find(
+        (item: any) =>
+          item.product.typeId === product.typeId &&
+          item.product.flavour === product.flavour &&
+          JSON.stringify(item.product.modifications) ===
+            JSON.stringify(product.modifications)
+      );
+
       if (existingItem) {
-        return prevCart.map((item) =>
-          item.product.id === product.id
+        return prevCart.map((item: any) =>
+          item.product.typeId === product.typeId &&
+          item.product.flavour === product.flavour &&
+          JSON.stringify(item.product.modifications) ===
+            JSON.stringify(product.modifications)
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
+
       return [...prevCart, { product, quantity: 1 }];
     });
-  };
-
-  const removeFromCart = (productId: string) => {
-    setCart((prevCart) =>
-      prevCart
-        .map((item) =>
-          item.product.id === productId && item.quantity > 1
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
   };
 
   const productById = groupByRefProductId(addonCategories, drinks);
