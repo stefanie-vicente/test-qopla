@@ -5,13 +5,14 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { Drink, DrinkCart } from "../interfaces/DrinkInterface";
+import { Product } from "../interfaces/ProductInterface";
+import { CartProduct } from "../interfaces/CartInterface";
 import { AddonType } from "../interfaces/AddonInterface";
-import { ModalDrink, StoreContextType, GroupedResult } from "./StoreTypes";
+import { ModalData, StoreContextType, GroupedResult } from "./StoreTypes";
 import {
-  filterByDrinkId,
+  filterByProductId,
   groupByRefProductId,
-  transformDrinkData,
+  transformProductData,
 } from "./helpers";
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -19,13 +20,15 @@ const StoreContext = createContext<StoreContextType | undefined>(undefined);
 export const StoreProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [drinks, setDrinks] = useState<Drink[]>([]);
+  const [drinks, setDrinks] = useState<Product[]>([]);
   const [drinksTypes, setDrinksTypes] = useState<string[]>([]);
-  const [selectedDrinkType, setSelectedDrinkType] = useState<string>("Soda");
-  const [cart, setCart] = useState<DrinkCart[]>([]);
+  // can be changed according to the default menu item
+  const [selectedProductType, setSelectedProductType] =
+    useState<string>("Soda");
+  const [cart, setCart] = useState<CartProduct[]>([]);
   const [addonCategories, setAddonCategories] = useState<AddonType[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [modalDrink, setModalDrink] = useState<ModalDrink>();
+  const [modalData, setModalData] = useState<ModalData>();
 
   useEffect(() => {
     const fetchDrinks = async () => {
@@ -33,7 +36,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
         const response = await fetch("/drinksMock.json");
         const { drinks } = await response.json();
 
-        const types = drinks.map((drink: Drink) => drink.name);
+        const types = drinks.map((drink: Product) => drink.name);
 
         setDrinksTypes(types);
         setDrinks(drinks);
@@ -59,9 +62,9 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     fetchAddons();
   }, []);
 
-  const removeFromCart = (product: DrinkCart) => {
-    setCart((prevCart: DrinkCart[]) => {
-      const existingItem: DrinkCart | undefined = prevCart.find(
+  const removeFromCart = (product: CartProduct) => {
+    setCart((prevCart: CartProduct[]) => {
+      const existingItem: CartProduct | undefined = prevCart.find(
         (item: any) =>
           item.product.typeId === product.typeId &&
           item.product.flavour === product.flavour &&
@@ -96,8 +99,8 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
-  const addToCart = (product: DrinkCart) => {
-    setCart((prevCart: DrinkCart[]) => {
+  const addToCart = (product: CartProduct) => {
+    setCart((prevCart: CartProduct[]) => {
       const existingItem = prevCart.find(
         (item: any) =>
           item.product.typeId === product.typeId &&
@@ -121,25 +124,26 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
+  // arrumar
   const productById = groupByRefProductId(addonCategories, drinks);
 
   const openModalOnClick = (id: string, flavour: string) => {
-    const drinkGroup: GroupedResult | undefined = filterByDrinkId(
+    const productGroup: GroupedResult | undefined = filterByProductId(
       productById,
       id
     );
-    if (drinkGroup) {
-      const transformedData = transformDrinkData(drinkGroup, flavour);
-      setModalDrink(transformedData);
+    if (productGroup) {
+      const transformedData = transformProductData(productGroup, flavour);
+      setModalData(transformedData);
       setOpenModal(true);
     } else {
-      console.error("Drink group not found for id:", id);
+      console.error("Product group not found for id:", id);
     }
   };
 
   const closeModalOnClick = () => {
     setOpenModal(false);
-    setModalDrink(undefined);
+    setModalData(undefined);
   };
 
   return (
@@ -147,16 +151,16 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         drinksTypes,
         drinks,
-        selectedDrinkType,
-        setSelectedDrinkType,
+        selectedProductType,
+        setSelectedProductType,
         cart,
         addToCart,
         removeFromCart,
-        filterByDrinkId,
+        filterByProductId,
         openModal,
         openModalOnClick,
         closeModalOnClick,
-        modalDrink,
+        modalData,
       }}
     >
       {children}

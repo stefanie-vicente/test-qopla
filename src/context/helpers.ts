@@ -1,22 +1,22 @@
-import { GroupedResult, InputDrink, OutputDrink } from "./StoreTypes";
-import { Drink } from "../interfaces/DrinkInterface";
+import { GroupedResult, InputProduct, OutputProduct } from "./StoreTypes";
+import { Product } from "../interfaces/ProductInterface";
 import { AddonType } from "../interfaces/AddonInterface";
 
 export const groupByRefProductId = (
   addonsData: AddonType[],
-  drinksData: Drink[]
+  productsData: Product[]
 ) => {
-  return drinksData
-    .map((drink) => {
+  return productsData
+    .map((product) => {
       const matchingAddonCategories = addonsData.filter((addonCategory) =>
-        addonCategory.refProductIds.includes(drink.id)
+        addonCategory.refProductIds.includes(product.id)
       );
       return matchingAddonCategories.length > 0
         ? {
-            drinkId: drink.id,
-            drinkName: drink.name,
-            drinkPrice: drink.price,
-            modifications: drink.modifications,
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            modifications: product.modifications,
             addons: matchingAddonCategories,
           }
         : null;
@@ -24,20 +24,20 @@ export const groupByRefProductId = (
     .filter((result) => result !== null);
 };
 
-export const filterByDrinkId = (
+export const filterByProductId = (
   groupedResults: GroupedResult[],
-  drinkId: string
-) => groupedResults.find((group) => group.drinkId === drinkId);
+  id: string
+) => groupedResults.find((group) => group.id === id);
 
-export function transformDrinkData(
-  input: InputDrink,
-  drinkFlavour: string
-): OutputDrink {
-  const result: OutputDrink = {
-    drinkId: input.drinkId,
-    drinkName: input.drinkName,
-    drinkFlavour: drinkFlavour,
-    drinkPrice: input.drinkPrice,
+export function transformProductData(
+  input: InputProduct,
+  flavour: string
+): OutputProduct {
+  const result: OutputProduct = {
+    id: input.id,
+    name: input.name,
+    flavour: flavour,
+    price: input.price,
     addons: {},
   };
 

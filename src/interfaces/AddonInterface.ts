@@ -1,10 +1,8 @@
-import { DrinkId } from "./DrinkInterface";
-
 export interface AddonType {
   name: string;
   limit: number;
   sortOrder: number;
-  refProductIds: DrinkId[];
+  refProductIds: string[];
   addons: Addon[];
 }
 

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useStore } from "../../context/StoreContext";
-import { Drink, DrinkFlavour } from "../../interfaces/DrinkInterface";
+import { Product, ProductFlavour } from "../../interfaces/ProductInterface";
 
 const Options = styled.div`
   display: grid;
@@ -35,11 +35,12 @@ const Item = styled.button`
   }
 `;
 
+// arrumar
 const FlavourOptions = () => {
-  const { drinks, selectedDrinkType, openModalOnClick } = useStore();
+  const { drinks, selectedProductType, openModalOnClick } = useStore();
 
   const filteredDrink = drinks.filter(
-    (drink: Drink) => drink.name === selectedDrinkType
+    (drink: Product) => drink.name === selectedProductType
   );
 
   const drinkFlavours =
@@ -51,7 +52,7 @@ const FlavourOptions = () => {
 
   return (
     <Options>
-      {drinkFlavours?.map((flavour: DrinkFlavour) => (
+      {drinkFlavours?.map((flavour: ProductFlavour) => (
         <Item
           key={flavour?.name}
           onClick={() => handleFlavourSelect(flavour.name)}

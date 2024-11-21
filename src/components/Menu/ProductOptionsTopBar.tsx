@@ -35,16 +35,17 @@ const Item = styled.button<{ isSelected: boolean }>`
     outline: 2px solid #ffcc00;
   }
 `;
-
+// arrumar
 const ProductOptionsTopBar = () => {
-  const { drinksTypes, setSelectedDrinkType, selectedDrinkType } = useStore();
+  const { drinksTypes, setSelectedProductType, selectedProductType } =
+    useStore();
   const [selectedOption, setSelectedOption] = useState<string | null>(
-    selectedDrinkType
+    selectedProductType
   );
 
   const handleClick = (item: string) => {
     setSelectedOption(item);
-    setSelectedDrinkType(item);
+    setSelectedProductType(item);
   };
 
   return (

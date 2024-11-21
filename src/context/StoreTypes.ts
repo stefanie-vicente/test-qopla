@@ -1,17 +1,18 @@
-import { Drink, DrinkCart } from "../interfaces/DrinkInterface";
+import { Product } from "../interfaces/ProductInterface";
+import { CartProduct } from "../interfaces/CartInterface";
 import { Addon, AddonType } from "../interfaces/AddonInterface";
 export interface GroupedResult {
-  drinkId: string;
-  drinkName: string;
-  drinkPrice: number;
+  id: string;
+  name: string;
+  price: number;
   addons: AddonType[];
 }
 
-export interface ModalDrink {
-  drinkId: string;
-  drinkName: string;
-  drinkFlavour: string;
-  drinkPrice: number;
+export interface ModalData {
+  id: string;
+  name: string;
+  flavour: string;
+  price: number;
   addons?: any;
 }
 export type InputAddon = {
@@ -22,18 +23,18 @@ export type InputAddon = {
   addons: Addon[];
 };
 
-export type InputDrink = {
-  drinkId: string;
-  drinkName: string;
-  drinkPrice: number;
+export type InputProduct = {
+  id: string;
+  name: string;
+  price: number;
   addons: InputAddon[];
 };
 
-export type OutputDrink = {
-  drinkId: string;
-  drinkName: string;
-  drinkFlavour: string;
-  drinkPrice: number;
+export type OutputProduct = {
+  id: string;
+  name: string;
+  flavour: string;
+  price: number;
   addons: {
     [key: string]: {
       limit: number;
@@ -45,19 +46,19 @@ export type OutputDrink = {
 };
 
 export interface StoreContextType {
-  addToCart: (product: DrinkCart) => void;
-  cart: DrinkCart[];
+  addToCart: (product: CartProduct) => void;
+  cart: CartProduct[];
   closeModalOnClick: () => void;
-  filterByDrinkId: (
+  filterByProductId: (
     groupedResults: GroupedResult[],
-    drinkId: string
+    id: string
   ) => GroupedResult | undefined;
-  drinks: Drink[];
+  drinks: Product[];
   drinksTypes: string[];
-  modalDrink?: ModalDrink;
+  modalData?: ModalData;
   openModal: boolean;
   openModalOnClick: (id: string, flavour: string) => void;
-  removeFromCart: (product: DrinkCart) => void;
-  selectedDrinkType: string;
-  setSelectedDrinkType: (type: string) => void;
+  removeFromCart: (product: CartProduct) => void;
+  selectedProductType: string;
+  setSelectedProductType: (type: string) => void;
 }

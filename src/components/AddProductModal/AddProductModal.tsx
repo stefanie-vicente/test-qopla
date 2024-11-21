@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../context/StoreContext";
-import { DrinkCart } from "../../interfaces/DrinkInterface";
+import { CartProduct } from "../../interfaces/CartInterface";
 import {
   ModalOverlay,
   ModalContainer,
@@ -14,9 +14,9 @@ import {
 } from "../styled-components/Modal";
 
 const AddProductModal = () => {
-  const { openModal, modalDrink, addToCart, closeModalOnClick } = useStore();
+  const { openModal, modalData, addToCart, closeModalOnClick } = useStore();
 
-  const [selectedDrink, setSelectedDrink] = useState<DrinkCart>({
+  const [selectedProduct, setSelectedProduct] = useState<CartProduct>({
     typeId: "",
     flavour: "",
     price: 0,
@@ -24,20 +24,20 @@ const AddProductModal = () => {
   });
 
   useEffect(() => {
-    if (modalDrink) {
-      setSelectedDrink({
-        typeId: modalDrink.drinkId,
-        flavour: modalDrink.drinkFlavour,
-        price: modalDrink.drinkPrice,
+    if (modalData) {
+      setSelectedProduct({
+        typeId: modalData.id,
+        flavour: modalData.flavour,
+        price: modalData.price,
         modifications: [],
       });
     }
-  }, [modalDrink]);
+  }, [modalData]);
 
-  if (!openModal || !modalDrink) return null;
+  if (!openModal || !modalData) return null;
 
   const handleConfirm = () => {
-    addToCart(selectedDrink);
+    addToCart(selectedProduct);
     closeModalOnClick();
   };
 
@@ -47,11 +47,11 @@ const AddProductModal = () => {
     price: number
   ) => {
     const newModification = { type, modification, price };
-    const modifications = selectedDrink?.modifications?.filter(
+    const modifications = selectedProduct?.modifications?.filter(
       (mod) => mod.type !== type
     );
     modifications?.push(newModification);
-    setSelectedDrink((prev) => ({ ...prev, modifications }));
+    setSelectedProduct((prev) => ({ ...prev, modifications }));
   };
 
   const renderAddonOptions = (addon: any, addonName: string) => {
@@ -85,9 +85,9 @@ const AddProductModal = () => {
   };
 
   const renderAddonGroups = () => {
-    if (!modalDrink.addons) return null;
+    if (!modalData.addons) return null;
 
-    return Object.entries(modalDrink.addons).map(([addonName, addon]) =>
+    return Object.entries(modalData.addons).map(([addonName, addon]) =>
       renderAddonOptions(addon, addonName)
     );
   };
@@ -99,7 +99,7 @@ const AddProductModal = () => {
       aria-hidden={!openModal}
     >
       <ModalContainer role="document">
-        <ModalTitle id="modal-title">{`${modalDrink.drinkName} - ${modalDrink.drinkFlavour}`}</ModalTitle>
+        <ModalTitle id="modal-title">{`${modalData.name} - ${modalData.flavour}`}</ModalTitle>
         {renderAddonGroups()}
         <ModalButtonContainer>
           <ModalButton
