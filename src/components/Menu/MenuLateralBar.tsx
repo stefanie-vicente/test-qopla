@@ -20,7 +20,10 @@ export const MenuItem = styled.div<{
   justify-content: center;
   text-align: center;
   font-weight: bold;
-  cursor: pointer;
+  cursor: ${(props) => {
+    if (props.$isInactive) return 'not-allowed';
+    return 'pointer';
+  }};
   font-size: 18px;
   background: ${(props) => {
     if (props.$isSelected) return '#9F7BB3';
@@ -40,8 +43,9 @@ export const MenuItem = styled.div<{
 
   &:hover {
     opacity: 0.9;
-    ${(props) => !props.$isInactive && 'transform: scale(1.05);'}
-    outline: 2px solid #ffcc00;
+    ${(props) =>
+      !props.$isInactive &&
+      'transform: scale(1.05); outline: 2px solid #ffcc00;'}
   }
 
   &:active {
@@ -76,7 +80,7 @@ const MenuLateralBar = () => {
           aria-selected={option === selectedOption}
           aria-disabled={option !== 'Drinks'}
         >
-          {option !== 'Drinks' ? `${option} is inactive` : 'Drinks'}
+          {option}
         </MenuItem>
       ))}
     </Sidebar>
