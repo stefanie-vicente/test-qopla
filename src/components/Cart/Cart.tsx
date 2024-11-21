@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useStore } from "../../context/StoreContext";
+import { useEffect, useState } from 'react';
+import { useStore } from '../../context/StoreContext';
 import {
   Container,
   SectionTitle,
@@ -11,9 +11,9 @@ import {
   Footer,
   Total,
   PayButton,
-} from "../styled-components/Cart";
+} from '../styled-components/Cart';
 
-const CartLateralBar = () => {
+const Cart = () => {
   const { cart, addToCart, removeFromCart } = useStore();
   const [products, setProducts] = useState<any[]>([]);
 
@@ -85,4 +85,4 @@ const CartLateralBar = () => {
   );
 };
 
-export default CartLateralBar;
+export default Cart;
