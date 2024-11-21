@@ -7,8 +7,8 @@ import {
   TopBar,
   Options,
   RightBar,
-} from "../components/StyledComponents";
-import CartLateralBar from "../components/Cart/CartLateralBar";
+} from "../components/styled-components/MenuPage";
+import Cart from "../components/Cart/Cart";
 import AddProductModal from "../components/AddProductModal/AddProductModal";
 
 const Menu = () => {
@@ -24,7 +24,7 @@ const Menu = () => {
         <FlavourOptions />
       </Options>
       <RightBar>
-        <CartLateralBar />
+        <Cart />
       </RightBar>
       <AddProductModal />
     </Page>
