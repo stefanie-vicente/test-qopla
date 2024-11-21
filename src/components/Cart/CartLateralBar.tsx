@@ -35,10 +35,10 @@ const StyledButton = styled.button`
 const PayButton = styled(StyledButton)`
   width: 100%;
   margin-top: 12px;
-  background-color: #007bff;
+  background-color: #0066cc;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #004085;
   }
 `;
 
@@ -90,9 +90,9 @@ const ActionButtons = styled.div`
     }
 
     &::after {
-      content: attr(data-label); /* Show label on hover */
+      content: attr(data-label);
       position: absolute;
-      top: -24px; /* Position above the button */
+      top: -24px;
       left: 50%;
       transform: translateX(-50%);
       background-color: #444;
