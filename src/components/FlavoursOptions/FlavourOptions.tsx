@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useStore } from "../context/StoreContext";
-import { Drink, DrinkFlavour } from "../interfaces/DrinkInterface";
+import { useStore } from "../../context/StoreContext";
+import { Drink, DrinkFlavour } from "../../interfaces/DrinkInterface";
 
 const Options = styled.div`
   display: grid;
@@ -30,7 +30,7 @@ const Item = styled.div`
 `;
 
 // change selectedDrinkType to id
-const DrinkOptions = () => {
+const FlavourOptions = () => {
   const { drinks, selectedDrinkType, openModalOnClick } = useStore();
 
   const filteredDrink = drinks.filter(
@@ -55,4 +55,4 @@ const DrinkOptions = () => {
   );
 };
 
-export default DrinkOptions;
+export default FlavourOptions;

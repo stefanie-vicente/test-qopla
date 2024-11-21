@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useStore } from "../context/StoreContext";
+import { useStore } from "../../context/StoreContext";
 
 const Drinks = styled.div`
   display: grid;
@@ -28,7 +28,7 @@ const DrinkItem = styled.div`
   }
 `;
 
-const DrinksTopBar = () => {
+const ProductOptionsTopBar = () => {
   const { drinksTypes, setSelectedDrinkType } = useStore();
 
   const handleClick = (item: string) => {
@@ -46,4 +46,4 @@ const DrinksTopBar = () => {
   );
 };
 
-export default DrinksTopBar;
+export default ProductOptionsTopBar;
