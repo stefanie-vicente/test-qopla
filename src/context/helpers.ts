@@ -1,6 +1,6 @@
-import { GroupedResult, InputProduct, OutputProduct } from "./StoreTypes";
-import { Product } from "../interfaces/ProductInterface";
-import { AddonType } from "../interfaces/AddonInterface";
+import { GroupedResult, InputProduct, OutputProduct } from './StoreTypes';
+import { Product } from '../interfaces/ProductInterface';
+import { AddonType } from '../interfaces/AddonInterface';
 
 export const groupByRefProductId = (
   addonsData: AddonType[],
@@ -9,7 +9,7 @@ export const groupByRefProductId = (
   return productsData
     .map((product) => {
       const matchingAddonCategories = addonsData.filter((addonCategory) =>
-        addonCategory.refProductIds.includes(product.id),
+        addonCategory?.refProductIds?.includes(product.id),
       );
       return matchingAddonCategories.length > 0
         ? {
